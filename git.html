@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git & GitHub – Hướng dẫn toàn diện</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* ── Sidebar nav ── */
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 100vh;
+            background: #0d1117;
+            overflow-y: auto;
+            padding: 24px 0 40px;
+            z-index: 100;
+        }
+
+        #sidebar .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid #21262d;
+        }
+
+        #sidebar .logo svg {
+            flex-shrink: 0;
+        }
+
+        #sidebar .logo span {
+            font-size: 17px;
+            font-weight: 700;
+            color: #f0f6fc;
+            letter-spacing: .3px;
+        }
+
+        #sidebar nav {
+            padding: 14px 0;
+        }
+
+        #sidebar nav a.section-link {
+            display: block;
+            padding: 7px 20px;
+            color: #8b949e;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            margin-top: 6px;
+        }
+
+        #sidebar nav a.section-link:hover {
+            color: #f0f6fc;
+        }
+
+        #sidebar nav a.sub-link {
+            display: block;
+            padding: 5px 20px 5px 32px;
+            color: #8b949e;
+            text-decoration: none;
+            font-size: 13.5px;
+            border-left: 2px solid transparent;
+            transition: all .15s;
+        }
+
+        #sidebar nav a.sub-link:hover,
+        #sidebar nav a.sub-link.active {
+            color: #f0f6fc;
+            border-left-color: #f78166;
+            background: #161b22;
+        }
+
+        /* ── Main content ── */
+        #main {
+            margin-left: 260px;
+            min-height: 100vh;
+        }
+
+        /* Hero */
+        #hero {
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 60%, #1a2233 100%);
+            padding: 70px 60px 60px;
+            color: #f0f6fc;
+        }
+
+        #hero .badge {
+            display: inline-block;
+            background: #f78166;
+            color: #0d1117;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            margin-bottom: 16px;
+        }
+
+        #hero h1 {
+            font-size: 44px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 14px;
+        }
+
+        #hero h1 span {
+            color: #f78166;
+        }
+
+        #hero p {
+            font-size: 17px;
+            color: #8b949e;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* Content area */
+        #content {
+            padding: 0 60px 80px;
+        }
+
+        /* Sections */
+        .chapter {
+            margin-top: 56px;
+            scroll-margin-top: 24px;
+        }
+
+        .chapter-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0d1117;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #f78166;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chapter-title .icon {
+            width: 32px;
+            height: 32px;
+            background: #f78166;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .section {
+            margin-top: 36px;
+            scroll-margin-top: 24px;
+        }
+
+        .section h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #0d1117;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section h3::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background: #f78166;
+            border-radius: 2px;
+        }
+
+        p {
+            margin-bottom: 12px;
+            color: #24292f;
+        }
+
+        /* Term cards (glossary overview) */
+        .term-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 14px;
+            margin-top: 8px;
+        }
+
+        .term-card {
+            background: #f6f8fa;
+            border: 1px solid #d0d7de;
+            border-left: 4px solid #f78166;
+            border-radius: 8px;
+            padding: 14px 16px;
+        }
+
+        .term-card .term-name {
+            font-weight: 700;
+            color: #0d1117;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .term-card .term-desc {
+            color: #57606a;
+            font-size: 13.5px;
+            line-height: 1.5;
+        }
+
+        /* Bullet lists */
+        ul.styled {
+            list-style: none;
+            padding: 0;
+            margin: 8px 0 14px;
+        }
+
+        ul.styled li {
+            position: relative;
+            padding: 6px 0 6px 22px;
+            color: #24292f;
+            font-size: 14.5px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        ul.styled li:last-child {
+            border-bottom: none;
+        }
+
+        ul.styled li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #f78166;
+            font-size: 13px;
+        }
+
+        /* Inline code */
+        code {
+            font-family: 'Consolas', 'Courier New', monospace;
+            background: #f3f4f6;
+            color: #d63384;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 13.5px;
+        }
+
+        /* Code blocks */
+        pre {
+            background: #0d1117;
+            color: #e6edf3;
+            padding: 20px 22px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13.5px;
+            line-height: 1.65;
+            margin: 14px 0;
+            border: 1px solid #21262d;
+        }
+
+        pre .comment {
+            color: #8b949e;
+        }
+
+        pre .keyword {
+            color: #ff7b72;
+        }
+
+        pre .string {
+            color: #a5d6ff;
+        }
+
+        pre .tag {
+            color: #7ee787;
+        }
+
+        /* Tables */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 14px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        thead tr {
+            background: #0d1117;
+            color: #f0f6fc;
+        }
+
+        thead th {
+            padding: 11px 14px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #d0d7de;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f6f8fa;
+        }
+
+        tbody tr:hover {
+            background: #fff4f0;
+        }
+
+        tbody td {
+            padding: 10px 14px;
+            vertical-align: top;
+            color: #24292f;
+        }
+
+        tbody td:first-child {
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13px;
+            color: #d63384;
+            white-space: nowrap;
+        }
+
+        /* Info / tip boxes */
+        .info-box {
+            background: #ddf4ff;
+            border-left: 4px solid #0969da;
+            border-radius: 0 8px 8px 0;
+            padding: 12px 16px;
+            margin: 14px 0;
+            font-size: 14px;
+            color: #0550ae;
+        }
+
+        .tip-box {
+            background: #dafbe1;
+            border-left: 4px solid #1a7f37;
+            border-radius: 0 8px 8px 0;
+            padding: 12px 16px;
+            margin: 14px 0;
+            font-size: 14px;
+            color: #116329;
+        }
+
+        .warn-box {
+            background: #fff8c5;
+            border-left: 4px solid #9a6700;
+            border-radius: 0 8px 8px 0;
+            padding: 12px 16px;
+            margin: 14px 0;
+            font-size: 14px;
+            color: #7d4e00;
+        }
+
+        /* Flow diagram (git workflow) */
+        .flow {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0;
+            margin: 20px 0;
+            background: #f6f8fa;
+            border: 1px solid #d0d7de;
+            border-radius: 10px;
+            padding: 20px 24px;
+        }
+
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-width: 110px;
+        }
+
+        .flow-step .bubble {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #f78166;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 8px;
+            box-shadow: 0 3px 8px rgba(247, 129, 102, .35);
+        }
+
+        .flow-step .label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #0d1117;
+        }
+
+        .flow-step .sub {
+            font-size: 11.5px;
+            color: #57606a;
+            margin-top: 2px;
+        }
+
+        .flow-arrow {
+            font-size: 22px;
+            color: #d0d7de;
+            margin: 0 6px;
+            padding-bottom: 18px;
+        }
+
+        /* Reset types visual */
+        .reset-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin: 14px 0;
+        }
+
+        .reset-card {
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid;
+        }
+
+        .reset-card.soft {
+            background: #dafbe1;
+            border-color: #1a7f37;
+        }
+
+        .reset-card.mixed {
+            background: #ddf4ff;
+            border-color: #0969da;
+        }
+
+        .reset-card.hard {
+            background: #ffeef0;
+            border-color: #cf222e;
+        }
+
+        .reset-card h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .reset-card.soft h4 {
+            color: #116329;
+        }
+
+        .reset-card.mixed h4 {
+            color: #0550ae;
+        }
+
+        .reset-card.hard h4 {
+            color: #a40e26;
+        }
+
+        .reset-card p {
+            font-size: 13px;
+            margin: 0;
+        }
+
+        .reset-card.soft p {
+            color: #116329;
+        }
+
+        .reset-card.mixed p {
+            color: #0550ae;
+        }
+
+        .reset-card.hard p {
+            color: #a40e26;
+        }
+
+        /* Footer */
+        footer {
+            margin-left: 260px;
+            background: #0d1117;
+            color: #8b949e;
+            text-align: center;
+            padding: 22px;
+            font-size: 13px;
+        }
+
+        /* Scrollbar */
+        #sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        #sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #sidebar::-webkit-scrollbar-thumb {
+            background: #30363d;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 900px) {
+            #sidebar {
+                display: none;
+            }
+
+            #main {
+                margin-left: 0;
+            }
+
+            footer {
+                margin-left: 0;
+            }
+
+            #hero {
+                padding: 40px 24px;
+            }
+
+            #content {
+                padding: 0 24px 60px;
+            }
+
+            #hero h1 {
+                font-size: 30px;
+            }
+
+            .reset-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ══════════ SIDEBAR ══════════ -->
+    <aside id="sidebar">
+        <div class="logo">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="#f78166">
+                <path
+                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z" />
+            </svg>
+            <span>Git &amp; GitHub</span>
+        </div>
+        <nav>
+            <a class="section-link" href="#tong-quan">📋 Tổng quan</a>
+            <a class="sub-link" href="#thuat-ngu">Thuật ngữ cơ bản</a>
+            <a class="sub-link" href="#lam-viec-git">Làm việc với Git</a>
+            <a class="sub-link" href="#github-la-gi">GitHub là gì?</a>
+
+            <a class="section-link" href="#su-dung-git">⚙️ Sử dụng Git</a>
+            <a class="sub-link" href="#git-init">git init</a>
+            <a class="sub-link" href="#staging">Staging Environment</a>
+            <a class="sub-link" href="#git-commit">Git Commit</a>
+            <a class="sub-link" href="#git-branch">Git Branch</a>
+            <a class="sub-link" href="#git-tagging">Git Tagging</a>
+            <a class="sub-link" href="#git-stash">Git Stash</a>
+            <a class="sub-link" href="#git-merge">Git Merge</a>
+            <a class="sub-link" href="#glossary">Bảng thuật ngữ</a>
+
+            <a class="section-link" href="#git-undo">↩️ Git Undo</a>
+            <a class="sub-link" href="#git-revert">git revert</a>
+            <a class="sub-link" href="#git-reset">git reset</a>
+            <a class="sub-link" href="#git-amend">git amend</a>
+            <a class="sub-link" href="#git-reflog">git reflog</a>
+            <a class="sub-link" href="#git-recovery">Git Recovery</a>
+
+            <a class="section-link" href="#github">🌐 GitHub</a>
+            <a class="sub-link" href="#ssh">SSH</a>
+            <a class="sub-link" href="#pull-request">Pull Request</a>
+            <a class="sub-link" href="#cicd">GitHub CI/CD</a>
+        </nav>
+    </aside>
+
+    <!-- ══════════ MAIN ══════════ -->
+    <main id="main">
+
+        <!-- Hero -->
+        <div id="hero">
+            <div class="badge">Tài liệu học tập</div>
+            <h1>Git &amp; <span>GitHub</span><br>Hướng dẫn toàn diện</h1>
+            <p>Từ những khái niệm cơ bản đến các kỹ thuật nâng cao — kiểm soát phiên bản, cộng tác nhóm và CI/CD với
+                GitHub Actions.</p>
+        </div>
+
+        <div id="content">
+
+            <!-- ════════════════════════════════ TỔNG QUAN ════════════════════════════════ -->
+            <div class="chapter" id="tong-quan">
+                <div class="chapter-title">
+                    <div class="icon">📋</div> Tổng quan
+                </div>
+
+                <div class="section" id="thuat-ngu">
+                    <h3>Thuật ngữ cơ bản</h3>
+                    <div class="term-grid">
+                        <div class="term-card">
+                            <div class="term-name">Repository</div>
+                            <div class="term-desc">Folder Git theo dõi project và toàn bộ lịch sử thay đổi của nó.</div>
+                        </div>
+                        <div class="term-card">
+                            <div class="term-name">Clone</div>
+                            <div class="term-desc">Sao chép một remote repository về máy tính cục bộ.</div>
+                        </div>
+                        <div class="term-card">
+                            <div class="term-name">Stage</div>
+                            <div class="term-desc">Đánh dấu cho Git biết những thay đổi nào sẽ được lưu vào lần commit
+                                tiếp theo.</div>
+                        </div>
+                        <div class="term-card">
+                            <div class="term-name">Commit</div>
+                            <div class="term-desc">Lưu một snapshot của các thay đổi kèm theo message mô tả.</div>
+                        </div>
+                        <div class="term-card">
+                            <div class="term-name">Branch</div>
+                            <div class="term-desc">Làm việc trên các version hoặc tính năng khác nhau song song cùng
+                                lúc.</div>
+                        </div>
+                        <div class="term-card">
+                            <div class="term-name">Merge</div>
+                            <div class="term-desc">Kết hợp sự thay đổi từ các branch khác nhau lại với nhau.</div>
+                        </div>
+                        <div class="term-card">
+                            <div class="term-name">Pull</div>
+                            <div class="term-desc">Lấy các thay đổi mới nhất từ remote repository về máy.</div>
+                        </div>
+                        <div class="term-card">
+                            <div class="term-name">Push</div>
+                            <div class="term-desc">Đưa các commit từ local lên remote repository.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section" id="lam-viec-git">
+                    <h3>Làm việc với Git</h3>
+
+                    <!-- Flow diagram -->
+                    <div class="flow">
+                        <div class="flow-step">
+                            <div class="bubble">📁</div>
+                            <div class="label">Working Directory</div>
+                            <div class="sub">Sửa file</div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <div class="bubble">📤</div>
+                            <div class="label">Staging Area</div>
+                            <div class="sub">git add</div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <div class="bubble">💾</div>
+                            <div class="label">Local Repo</div>
+                            <div class="sub">git commit</div>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <div class="bubble">☁️</div>
+                            <div class="label">Remote Repo</div>
+                            <div class="sub">git push</div>
+                        </div>
+                    </div>
+
+                    <ul class="styled">
+                        <li>Khởi tạo Git trong một thư mục để biến nó thành Git Repository.</li>
+                        <li>Git sẽ tạo thư mục ẩn <code>.git</code> để lưu trữ toàn bộ thông tin quản lý phiên bản.</li>
+                        <li>Khi file được thêm, sửa hoặc xóa, Git đánh dấu trạng thái là <strong>Modified</strong>.</li>
+                        <li>Chọn file muốn commit bằng lệnh <code>git add</code> để đưa vào Staging Area.</li>
+                        <li>File trong Staging Area sẽ được commit, tạo snapshot lưu vĩnh viễn trong lịch sử.</li>
+                        <li>Bạn có thể xem lại toàn bộ lịch sử commit và quay về bất kỳ commit nào trước đó.</li>
+                        <li>Git chỉ lưu <em>sự thay đổi</em> (diff) giữa các phiên bản, không lưu bản sao đầy đủ — giúp
+                            tiết kiệm dung lượng.</li>
+                    </ul>
+                </div>
+
+                <div class="section" id="github-la-gi">
+                    <h3>GitHub là gì?</h3>
+                    <div class="info-box">💡 <strong>GitHub ≠ Git.</strong> GitHub là một nền tảng web sử dụng Git làm
+                        nền tảng bên dưới.</div>
+                    <ul class="styled">
+                        <li>GitHub là kho lưu trữ mã nguồn lớn nhất thế giới, được Microsoft mua lại năm 2018.</li>
+                        <li>GitHub cung cấp giao diện web, quản lý issue, Pull Request, GitHub Actions, GitHub Pages và
+                            nhiều hơn nữa.</li>
+                        <li>Các nền tảng tương tự: GitLab, Bitbucket, Gitea (self-hosted).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ════════════════════════════════ SỬ DỤNG GIT ════════════════════════════════ -->
+            <div class="chapter" id="su-dung-git">
+                <div class="chapter-title">
+                    <div class="icon">⚙️</div> Sử dụng Git
+                </div>
+
+                <div class="section" id="git-init">
+                    <h3>git init</h3>
+                    <p>Khởi tạo một Git Repository mới trong thư mục hiện tại. Git sẽ tạo thư mục ẩn <code>.git</code>
+                        chứa toàn bộ metadata theo dõi phiên bản.</p>
+                    <pre><span class="comment"># Khởi tạo repo mới</span>
+git init
+
+<span class="comment"># Khởi tạo với tên branch mặc định (khuyến nghị)</span>
+git init -b main
+
+<span class="comment"># Clone repo từ remote về máy</span>
+git clone https://github.com/user/repo.git</pre>
+                </div>
+
+                <div class="section" id="staging">
+                    <h3>Staging Environment</h3>
+                    <p>Staging Area giống như phòng chờ cho các thay đổi — bạn kiểm soát chính xác file nào sẽ vào
+                        commit tiếp theo.</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Lệnh</th>
+                                    <th>Công dụng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>git add &lt;file&gt;</td>
+                                    <td>Stage một file cụ thể</td>
+                                </tr>
+                                <tr>
+                                    <td>git add --all hoặc -A</td>
+                                    <td>Stage tất cả thay đổi (bao gồm xóa file)</td>
+                                </tr>
+                                <tr>
+                                    <td>git add .</td>
+                                    <td>Stage tất cả thay đổi trong thư mục hiện tại</td>
+                                </tr>
+                                <tr>
+                                    <td>git status</td>
+                                    <td>Xem trạng thái các file (staged / unstaged)</td>
+                                </tr>
+                                <tr>
+                                    <td>git restore --staged &lt;file&gt;</td>
+                                    <td>Hủy stage một file (unstage)</td>
+                                </tr>
+                                <tr>
+                                    <td>git diff --staged</td>
+                                    <td>Xem chi tiết thay đổi đã được stage</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="section" id="git-commit">
+                    <h3>Git Commit</h3>
+                    <p>Một commit là điểm lưu trong lịch sử project — snapshot tại một thời điểm kèm message mô tả.</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Lệnh</th>
+                                    <th>Công dụng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>git commit -m "message"</td>
+                                    <td>Commit các thay đổi đã stage kèm message</td>
+                                </tr>
+                                <tr>
+                                    <td>git commit -a -m "message"</td>
+                                    <td>Commit tất cả thay đổi (bỏ qua staging; không áp dụng cho file mới)</td>
+                                </tr>
+                                <tr>
+                                    <td>git commit --allow-empty -m "Start"</td>
+                                    <td>Tạo commit rỗng (hữu ích để khởi tạo project)</td>
+                                </tr>
+                                <tr>
+                                    <td>git commit --no-edit</td>
+                                    <td>Commit dùng lại message của commit trước</td>
+                                </tr>
+                                <tr>
+                                    <td>git commit --amend --no-edit</td>
+                                    <td>Thêm staged changes vào commit cuối, giữ nguyên message</td>
+                                </tr>
+                                <tr>
+                                    <td>git log</td>
+                                    <td>Xem lịch sử commit đầy đủ</td>
+                                </tr>
+                                <tr>
+                                    <td>git log --oneline</td>
+                                    <td>Xem lịch sử commit dạng rút gọn</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tip-box">✅ <strong>Tip:</strong> Gõ <code>git commit</code> (không có <code>-m</code>)
+                        để mở trình soạn thảo — tiện lợi khi cần viết commit message dài, nhiều dòng.</div>
+                </div>
+
+                <div class="section" id="git-branch">
+                    <h3>Git Branch</h3>
+                    <p>Branch cho phép phát triển tính năng, sửa lỗi hoặc thử nghiệm mà không ảnh hưởng đến nhánh chính.
+                    </p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Lệnh</th>
+                                    <th>Công dụng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>git branch</td>
+                                    <td>Liệt kê các branch hiện có</td>
+                                </tr>
+                                <tr>
+                                    <td>git branch &lt;tên&gt;</td>
+                                    <td>Tạo branch mới</td>
+                                </tr>
+                                <tr>
+                                    <td>git switch &lt;tên&gt;</td>
+                                    <td>Chuyển sang branch (lệnh mới, thay thế checkout)</td>
+                                </tr>
+                                <tr>
+                                    <td>git switch -c &lt;tên&gt;</td>
+                                    <td>Tạo và chuyển sang branch mới cùng lúc</td>
+                                </tr>
+                                <tr>
+                                    <td>git checkout -b &lt;tên&gt;</td>
+                                    <td>Tạo và chuyển sang branch mới (lệnh cũ)</td>
+                                </tr>
+                                <tr>
+                                    <td>git branch -d &lt;tên&gt;</td>
+                                    <td>Xóa branch (chỉ khi đã merge)</td>
+                                </tr>
+                                <tr>
+                                    <td>git branch -D &lt;tên&gt;</td>
+                                    <td>Xóa branch bắt buộc</td>
+                                </tr>
+                                <tr>
+                                    <td>git branch -m &lt;tên mới&gt;</td>
+                                    <td>Đổi tên branch hiện tại</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <pre><span class="comment"># Tạo branch feature và chuyển sang</span>
+git switch -c feature/login
+
+<span class="comment"># Làm việc, commit...</span>
+git add .
+git commit -m "Add login feature"
+
+<span class="comment"># Quay về main và merge</span>
+git switch main
+git merge feature/login</pre>
+                </div>
+
+                <div class="section" id="git-tagging">
+                    <h3>Git Tagging</h3>
+                    <p>Tag là nhãn đánh dấu một commit quan trọng, thường dùng cho các bản phát hành (release) phần mềm.
+                    </p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Lệnh</th>
+                                    <th>Công dụng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>git tag v1.0</td>
+                                    <td>Tạo lightweight tag tại commit hiện tại</td>
+                                </tr>
+                                <tr>
+                                    <td>git tag -a v1.0 -m "msg"</td>
+                                    <td>Tạo annotated tag (có tên, ngày, message — khuyến nghị)</td>
+                                </tr>
+                                <tr>
+                                    <td>git tag v1.1 1a2b3c4d</td>
+                                    <td>Tag một commit cụ thể theo mã SHA</td>
+                                </tr>
+                                <tr>
+                                    <td>git tag</td>
+                                    <td>Liệt kê tất cả tag</td>
+                                </tr>
+                                <tr>
+                                    <td>git show v1.0</td>
+                                    <td>Xem chi tiết một tag</td>
+                                </tr>
+                                <tr>
+                                    <td>git push origin v1.0</td>
+                                    <td>Push một tag lên remote</td>
+                                </tr>
+                                <tr>
+                                    <td>git push --tags</td>
+                                    <td>Push tất cả tag lên remote</td>
+                                </tr>
+                                <tr>
+                                    <td>git tag -d v1.0</td>
+                                    <td>Xóa tag ở local</td>
+                                </tr>
+                                <tr>
+                                    <td>git push origin --delete tag v1.0</td>
+                                    <td>Xóa tag trên remote</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="info-box">💡 Mặc định tag chỉ tồn tại trên máy local. Cần
+                        <code>git push origin &lt;tag&gt;</code> để người khác thấy được.</div>
+                </div>
+
+                <div class="section" id="git-stash">
+                    <h3>Git Stash</h3>
+                    <p>Lưu tạm thời các thay đổi chưa commit và trả về working directory sạch — hữu ích khi cần chuyển
+                        task gấp.</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Lệnh</th>
+                                    <th>Công dụng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>git stash</td>
+                                    <td>Lưu tạm thay đổi (không lưu untracked files)</td>
+                                </tr>
+                                <tr>
+                                    <td>git stash push -m "msg"</td>
+                                    <td>Lưu stash kèm mô tả để dễ nhận biết</td>
+                                </tr>
+                                <tr>
+                                    <td>git stash -u</td>
+                                    <td>Lưu cả untracked files</td>
+                                </tr>
+                                <tr>
+                                    <td>git stash -a</td>
+                                    <td>Lưu toàn bộ kể cả ignored files</td>
+                                </tr>
+                                <tr>
+                                    <td>git stash list</td>
+                                    <td>Hiện danh sách stash đã lưu</td>
+                                </tr>
+                                <tr>
+                                    <td>git stash show -p</td>
+                                    <td>Xem chi tiết thay đổi của stash gần nhất</td>
+                                </tr>
+                                <tr>
+                                    <td>git stash apply</td>
+                                    <td>Khôi phục stash gần nhất, giữ trong danh sách</td>
+                                </tr>
+                                <tr>
+                                    <td>git stash apply stash@{2}</td>
+                                    <td>Khôi phục một stash cụ thể</td>
+                                </tr>
+                                <tr>
+                                    <td>git stash pop</td>
+                                    <td>Khôi phục stash gần nhất và xóa khỏi danh sách</td>
+                                </tr>
+                                <tr>
+                                    <td>git stash drop stash@{1}</td>
+                                    <td>Xóa một stash cụ thể</td>
+                                </tr>
+                                <tr>
+                                    <td>git stash clear</td>
+                                    <td>Xóa toàn bộ stash</td>
+                                </tr>
+                                <tr>
+                                    <td>git stash branch &lt;name&gt;</td>
+                                    <td>Tạo branch mới từ stash và áp dụng stash lên đó</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tip-box">✅ Stash lưu theo cơ chế stack (LIFO) — mỗi lần stash, thay đổi được đẩy lên đầu
+                        stack.</div>
+                </div>
+
+                <div class="section" id="git-merge">
+                    <h3>Git Merge</h3>
+                    <p>Hợp nhất lịch sử và thay đổi của một branch vào branch hiện tại.</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Lệnh</th>
+                                    <th>Công dụng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>git merge &lt;branch&gt;</td>
+                                    <td>Hợp nhất branch vào branch hiện tại</td>
+                                </tr>
+                                <tr>
+                                    <td>git merge --no-ff &lt;branch&gt;</td>
+                                    <td>Luôn tạo Merge Commit (dù có thể Fast-forward)</td>
+                                </tr>
+                                <tr>
+                                    <td>git merge --ff-only &lt;branch&gt;</td>
+                                    <td>Chỉ merge nếu có thể Fast-forward, không thì báo lỗi</td>
+                                </tr>
+                                <tr>
+                                    <td>git merge --squash &lt;branch&gt;</td>
+                                    <td>Gộp toàn bộ commit thành một thay đổi trước khi commit</td>
+                                </tr>
+                                <tr>
+                                    <td>git merge --abort</td>
+                                    <td>Hủy merge khi xảy ra conflict</td>
+                                </tr>
+                                <tr>
+                                    <td>git merge --continue</td>
+                                    <td>Tiếp tục merge sau khi giải quyết conflict</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="warn-box">⚠️ Khi xảy ra <strong>conflict</strong>, Git sẽ đánh dấu trong file bằng
+                        <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>,
+                        <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>. Bạn cần sửa thủ công, rồi <code>git add</code> và
+                        <code>git merge --continue</code>.</div>
+                </div>
+
+                <div class="section" id="glossary">
+                    <h3>Bảng thuật ngữ Git đầy đủ</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Thuật ngữ</th>
+                                    <th>Mô tả</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Branch</td>
+                                    <td>Nhánh phát triển độc lập, cho phép làm việc song song không ảnh hưởng nhánh
+                                        chính.</td>
+                                </tr>
+                                <tr>
+                                    <td>Checkout</td>
+                                    <td>Chuyển sang branch, commit hoặc file khác (nay dùng git switch).</td>
+                                </tr>
+                                <tr>
+                                    <td>Clone</td>
+                                    <td>Sao chép toàn bộ repository từ remote về local.</td>
+                                </tr>
+                                <tr>
+                                    <td>Commit</td>
+                                    <td>Snapshot của Staging Area được lưu vào lịch sử Git.</td>
+                                </tr>
+                                <tr>
+                                    <td>Conflict</td>
+                                    <td>Xung đột khi Git không thể tự động hợp nhất các thay đổi từ nhiều branch.</td>
+                                </tr>
+                                <tr>
+                                    <td>Fetch</td>
+                                    <td>Tải thay đổi từ remote nhưng chưa merge vào branch hiện tại.</td>
+                                </tr>
+                                <tr>
+                                    <td>Fork</td>
+                                    <td>Tạo bản sao repository trên tài khoản GitHub cá nhân để phát triển độc lập.</td>
+                                </tr>
+                                <tr>
+                                    <td>HEAD</td>
+                                    <td>Con trỏ chỉ tới commit hoặc branch hiện đang được checkout.</td>
+                                </tr>
+                                <tr>
+                                    <td>Index (Staging Area)</td>
+                                    <td>Vùng trung gian chứa thay đổi trước khi commit.</td>
+                                </tr>
+                                <tr>
+                                    <td>Merge</td>
+                                    <td>Hợp nhất lịch sử và thay đổi của branch vào branch hiện tại.</td>
+                                </tr>
+                                <tr>
+                                    <td>Origin</td>
+                                    <td>Tên mặc định của remote repository mà local repo kết nối tới.</td>
+                                </tr>
+                                <tr>
+                                    <td>Pull</td>
+                                    <td>Fetch + Merge (hoặc Rebase) thay đổi từ remote về branch hiện tại.</td>
+                                </tr>
+                                <tr>
+                                    <td>Push</td>
+                                    <td>Đẩy commit từ local lên remote repository.</td>
+                                </tr>
+                                <tr>
+                                    <td>Rebase</td>
+                                    <td>Viết lại lịch sử commit để tạo lịch sử tuyến tính, gọn gàng hơn.</td>
+                                </tr>
+                                <tr>
+                                    <td>Remote</td>
+                                    <td>Repository trên máy chủ (GitHub, GitLab...) để chia sẻ và cộng tác.</td>
+                                </tr>
+                                <tr>
+                                    <td>Repository (Repo)</td>
+                                    <td>Nơi lưu trữ toàn bộ mã nguồn, lịch sử commit, branch và metadata.</td>
+                                </tr>
+                                <tr>
+                                    <td>Stash</td>
+                                    <td>Lưu tạm thay đổi chưa commit để chuyển sang công việc khác.</td>
+                                </tr>
+                                <tr>
+                                    <td>Tag</td>
+                                    <td>Nhãn đánh dấu commit cụ thể, thường dùng để quản lý phiên bản (v1.0, v2.0...).
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Upstream</td>
+                                    <td>Repository hoặc branch gốc mà repo hiện tại theo dõi để đồng bộ thay đổi.</td>
+                                </tr>
+                                <tr>
+                                    <td>Working Directory</td>
+                                    <td>Thư mục làm việc trên máy, nơi chứa file thực tế của dự án.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ════════════════════════════════ GIT UNDO ════════════════════════════════ -->
+            <div class="chapter" id="git-undo">
+                <div class="chapter-title">
+                    <div class="icon">↩️</div> Git Undo
+                </div>
+
+                <div class="section" id="git-revert">
+                    <h3>git revert</h3>
+                    <p><strong>git revert</strong> hoàn tác một commit cũ bằng cách tạo một <em>commit mới</em> — lịch
+                        sử không bị xóa, an toàn để dùng trên nhánh đã push lên remote.</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Lệnh</th>
+                                    <th>Công dụng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>git revert HEAD</td>
+                                    <td>Hoàn tác commit mới nhất bằng commit mới</td>
+                                </tr>
+                                <tr>
+                                    <td>git revert &lt;commit&gt;</td>
+                                    <td>Hoàn tác một commit cụ thể</td>
+                                </tr>
+                                <tr>
+                                    <td>git revert HEAD~2</td>
+                                    <td>Hoàn tác commit cách hiện tại 2 bước</td>
+                                </tr>
+                                <tr>
+                                    <td>git revert --no-edit</td>
+                                    <td>Hoàn tác và bỏ qua bước chỉnh sửa commit message</td>
+                                </tr>
+                                <tr>
+                                    <td>git log --oneline</td>
+                                    <td>Xem lịch sử commit rút gọn để lấy mã SHA</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tip-box">✅ Nên dùng <code>git revert</code> trên nhánh đã được chia sẻ với team vì không
+                        làm thay đổi lịch sử cũ.</div>
+                </div>
+
+                <div class="section" id="git-reset">
+                    <h3>git reset</h3>
+                    <p><strong>git reset</strong> di chuyển HEAD về một commit trước đó. Có 3 chế độ — chọn đúng chế độ
+                        để tránh mất code.</p>
+
+                    <div class="reset-grid">
+                        <div class="reset-card soft">
+                            <h4>--soft</h4>
+                            <p>Di chuyển HEAD về commit chỉ định. Các thay đổi vẫn trong Staging Area — sẵn sàng commit
+                                lại.</p>
+                        </div>
+                        <div class="reset-card mixed">
+                            <h4>--mixed (mặc định)</h4>
+                            <p>Di chuyển HEAD, xóa khỏi Staging Area nhưng giữ thay đổi trong Working Directory.</p>
+                        </div>
+                        <div class="reset-card hard">
+                            <h4>--hard ⚠️</h4>
+                            <p>Di chuyển HEAD và <strong>xóa sạch</strong> Staging Area lẫn Working Directory. Không thể
+                                hoàn tác dễ dàng!</p>
+                        </div>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Lệnh</th>
+                                    <th>Công dụng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>git reset --soft &lt;commit&gt;</td>
+                                    <td>Giữ thay đổi trong Staging Area</td>
+                                </tr>
+                                <tr>
+                                    <td>git reset --mixed &lt;commit&gt;</td>
+                                    <td>Giữ thay đổi trong Working Directory (mặc định)</td>
+                                </tr>
+                                <tr>
+                                    <td>git reset --hard &lt;commit&gt;</td>
+                                    <td>Xóa toàn bộ thay đổi — không thể hoàn tác</td>
+                                </tr>
+                                <tr>
+                                    <td>git reset &lt;file&gt;</td>
+                                    <td>Hủy stage một file cụ thể</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="section" id="git-amend">
+                    <h3>git amend</h3>
+                    <p>Sửa đổi commit <em>gần nhất</em>: thay đổi message, thêm/bớt file, hoặc cả hai.</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Lệnh</th>
+                                    <th>Công dụng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>git commit --amend</td>
+                                    <td>Sửa commit gần nhất (mở editor để chỉnh message)</td>
+                                </tr>
+                                <tr>
+                                    <td>git commit --amend -m "msg mới"</td>
+                                    <td>Thay đổi message không qua editor</td>
+                                </tr>
+                                <tr>
+                                    <td>git commit --amend --no-edit</td>
+                                    <td>Thêm staged changes vào commit cuối, giữ nguyên message</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="warn-box">⚠️ <strong>Không dùng amend</strong> trên commit đã được push lên remote — sẽ
+                        gây conflict lịch sử với team.</div>
+                </div>
+
+                <div class="section" id="git-reflog">
+                    <h3>git reflog</h3>
+                    <p><strong>Reflog</strong> là nhật ký bí mật ghi lại mọi chuyển động của HEAD — commit, checkout,
+                        reset, merge, rebase. Rất hữu ích để tìm lại commit hoặc nhánh tưởng chừng đã mất.</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Lệnh</th>
+                                    <th>Công dụng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>git reflog</td>
+                                    <td>Hiện toàn bộ lịch sử di chuyển của HEAD kèm HEAD@{n}</td>
+                                </tr>
+                                <tr>
+                                    <td>git reflog show &lt;branch&gt;</td>
+                                    <td>Xem nhật ký của một nhánh cụ thể</td>
+                                </tr>
+                                <tr>
+                                    <td>git reflog --date=relative</td>
+                                    <td>Hiện mốc thời gian tương đối (5 minutes ago...)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="section" id="git-recovery">
+                    <h3>Git Recovery</h3>
+                    <p>Kết hợp <code>git reflog</code> với các lệnh khôi phục để cứu code trong tình huống xóa nhầm
+                        nhánh, reset sai, hoặc mất commit.</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Lệnh</th>
+                                    <th>Công dụng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>git reset --hard HEAD@{n}</td>
+                                    <td>Khôi phục về vị trí HEAD@{n} tìm được trong reflog</td>
+                                </tr>
+                                <tr>
+                                    <td>git reset --hard &lt;commit_sha&gt;</td>
+                                    <td>Quay về commit cụ thể đã bị xóa khỏi git log</td>
+                                </tr>
+                                <tr>
+                                    <td>git checkout -b &lt;tên mới&gt; &lt;sha&gt;</td>
+                                    <td>Hồi sinh nhánh đã xóa bằng cách tạo nhánh mới tại SHA cũ</td>
+                                </tr>
+                                <tr>
+                                    <td>git cherry-pick &lt;sha&gt;</td>
+                                    <td>Lấy riêng một commit bị thất lạc và áp dụng vào nhánh hiện tại</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <pre><span class="comment"># Tình huống: lỡ git reset --hard, mất code</span>
+git reflog                        <span class="comment"># tìm vị trí trước khi reset</span>
+<span class="comment"># HEAD@{3}: commit abc1234 "Add payment feature"</span>
+git reset --hard HEAD@{3}        <span class="comment"># khôi phục về đó</span></pre>
+                </div>
+            </div>
+
+            <!-- ════════════════════════════════ GITHUB ════════════════════════════════ -->
+            <div class="chapter" id="github">
+                <div class="chapter-title">
+                    <div class="icon">🌐</div> GitHub
+                </div>
+
+                <div class="section" id="ssh">
+                    <h3>SSH là gì?</h3>
+                    <p>SSH (Secure Shell) là giao thức kết nối an toàn tới máy chủ từ xa. GitHub dùng SSH key thay cho
+                        mật khẩu để xác thực danh tính.</p>
+                    <div class="flow" style="gap: 10px;">
+                        <div class="flow-step">
+                            <div class="bubble">🔑</div>
+                            <div class="label">Private Key</div>
+                            <div class="sub">Trên máy bạn (bí mật)</div>
+                        </div>
+                        <div class="flow-arrow">🔐</div>
+                        <div class="flow-step">
+                            <div class="bubble">🔒</div>
+                            <div class="label">Public Key</div>
+                            <div class="sub">Lưu trên GitHub</div>
+                        </div>
+                        <div class="flow-arrow">✅</div>
+                        <div class="flow-step">
+                            <div class="bubble">☁️</div>
+                            <div class="label">Kết nối an toàn</div>
+                            <div class="sub">Git push / pull</div>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Lệnh</th>
+                                    <th>Công dụng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ssh-keygen</td>
+                                    <td>Tạo một cặp SSH key mới (public + private)</td>
+                                </tr>
+                                <tr>
+                                    <td>ssh-add ~/.ssh/id_ed25519</td>
+                                    <td>Thêm khóa SSH vào SSH agent</td>
+                                </tr>
+                                <tr>
+                                    <td>ssh-add -l</td>
+                                    <td>Liệt kê các SSH key đã tải vào agent</td>
+                                </tr>
+                                <tr>
+                                    <td>ssh -T git@github.com</td>
+                                    <td>Kiểm tra kết nối SSH tới GitHub</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <pre><span class="comment"># 1. Tạo SSH key (Ed25519 được khuyến nghị)</span>
+ssh-keygen -t ed25519 -C "email@example.com"
+
+<span class="comment"># 2. Thêm public key vào GitHub: Settings → SSH Keys → New SSH Key</span>
+cat ~/.ssh/id_ed25519.pub
+
+<span class="comment"># 3. Kiểm tra kết nối</span>
+ssh -T git@github.com
+<span class="comment"># Hi username! You've successfully authenticated.</span></pre>
+                </div>
+
+                <div class="section" id="pull-request">
+                    <h3>Pull Request (PR)</h3>
+                    <p>Pull Request là cơ chế trên GitHub cho phép đề xuất thay đổi từ nhánh của bạn vào nhánh chính,
+                        kèm theo code review từ đồng nghiệp.</p>
+                    <ul class="styled">
+                        <li>Fork repository (nếu không có quyền ghi trực tiếp) hoặc tạo branch mới trong cùng repo.</li>
+                        <li>Thực hiện thay đổi, commit và push nhánh lên GitHub.</li>
+                        <li>Mở Pull Request từ giao diện GitHub, mô tả rõ nội dung thay đổi.</li>
+                        <li>Đồng nghiệp review, comment và approve hoặc yêu cầu chỉnh sửa.</li>
+                        <li>Sau khi được approve, merge PR vào nhánh đích.</li>
+                        <li>Xóa nhánh sau khi merge để giữ repo gọn gàng.</li>
+                    </ul>
+                    <div class="tip-box">✅ <strong>Best practice:</strong> Viết mô tả PR rõ ràng — vấn đề gì, giải pháp
+                        ra sao, cách test — giúp review nhanh hơn.</div>
+                </div>
+
+                <div class="section" id="cicd">
+                    <h3>GitHub CI/CD (GitHub Actions)</h3>
+                    <p><strong>CI/CD</strong> = Continuous Integration + Continuous Deployment/Delivery. Mỗi lần push
+                        code, hệ thống tự động chạy test, build và deploy.</p>
+
+                    <div class="term-grid">
+                        <div class="term-card">
+                            <div class="term-name">Lợi ích</div>
+                            <div class="term-desc">Phát hiện bug sớm · Deploy nhanh và an toàn · Giảm thao tác thủ công
+                                · Phản hồi ngay sau mỗi push.</div>
+                        </div>
+                        <div class="term-card">
+                            <div class="term-name">Workflow</div>
+                            <div class="term-desc">Chuỗi các job chạy cùng nhau, định nghĩa bằng file <code>.yml</code>
+                                trong <code>.github/workflows/</code>.</div>
+                        </div>
+                        <div class="term-card">
+                            <div class="term-name">Job</div>
+                            <div class="term-desc">Nhóm các step chạy trên cùng một runner (máy ảo).</div>
+                        </div>
+                        <div class="term-card">
+                            <div class="term-name">Step</div>
+                            <div class="term-desc">Một tác vụ đơn lẻ: checkout code, chạy test, build Docker image...
+                            </div>
+                        </div>
+                        <div class="term-card">
+                            <div class="term-name">Runner</div>
+                            <div class="term-desc">Máy chủ thực thi job. Dùng runner của GitHub
+                                (<code>ubuntu-latest</code>) hoặc self-hosted.</div>
+                        </div>
+                        <div class="term-card">
+                            <div class="term-name">Trigger</div>
+                            <div class="term-desc">Điều kiện kích hoạt workflow: push, pull_request, schedule (cron),
+                                workflow_dispatch...</div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 24px;">Ví dụ: CI Pipeline cơ bản</h3>
+                    <pre><span class="comment"># .github/workflows/ci.yml</span>
+<span class="tag">name:</span> <span class="string">CI Pipeline</span>
+
+<span class="tag">on:</span>
+  push:          <span class="comment"># Chạy khi push bất kỳ branch</span>
+  pull_request:  <span class="comment"># Chạy khi có Pull Request</span>
+
+<span class="tag">jobs:</span>
+  build:
+    <span class="tag">runs-on:</span> ubuntu-latest
+
+    <span class="tag">steps:</span>
+      - <span class="tag">name:</span> Checkout code
+        <span class="tag">uses:</span> actions/checkout@v3
+
+      - <span class="tag">name:</span> Cài Node.js
+        <span class="tag">uses:</span> actions/setup-node@v3
+        <span class="tag">with:</span>
+          node-version: <span class="string">'18'</span>
+
+      - <span class="tag">name:</span> Cài dependencies
+        <span class="tag">run:</span> npm install
+
+      - <span class="tag">name:</span> Chạy test
+        <span class="tag">run:</span> npm test
+
+      - <span class="tag">name:</span> Build project
+        <span class="tag">run:</span> npm run build</pre>
+
+                    <h3 style="margin-top: 24px;">Ví dụ: CI/CD nâng cao (nhiều job)</h3>
+                    <pre><span class="tag">name:</span> <span class="string">CI/CD nâng cao</span>
+<span class="tag">on:</span> [push]
+
+<span class="tag">jobs:</span>
+  test:
+    <span class="tag">runs-on:</span> ubuntu-latest
+    <span class="tag">steps:</span>
+      - <span class="tag">uses:</span> actions/checkout@v3
+      - <span class="tag">run:</span> npm install
+      - <span class="tag">run:</span> npm test
+
+  deploy:
+    <span class="tag">runs-on:</span> ubuntu-latest
+    <span class="tag">needs:</span> test    <span class="comment"># Chỉ chạy nếu job "test" thành công</span>
+    <span class="tag">steps:</span>
+      - <span class="tag">uses:</span> actions/checkout@v3
+      - <span class="tag">name:</span> Deploy lên server
+        <span class="tag">run:</span> ./deploy.sh
+        <span class="tag">env:</span>
+          DEPLOY_KEY: <span class="string">${{ secrets.DEPLOY_KEY }}</span></pre>
+
+                    <div class="info-box">💡 <strong>Bỏ qua CI:</strong> Thêm <code>[skip ci]</code> vào commit message
+                        để không kích hoạt pipeline khi chỉ sửa tài liệu:
+                        <code>git commit -m "Cập nhật README [skip ci]"</code></div>
+                </div>
+            </div>
+
+        </div><!-- /content -->
+    </main>
+
+    <footer>
+        <p>Tài liệu Git &amp; GitHub · Nội dung dựa trên tài liệu học tập nội bộ, có bổ sung thêm · Được biên soạn bằng
+            HTML tĩnh · Font: Arial</p>
+    </footer>
+
+    <script>
+        // Active sidebar link on scroll
+        const links = document.querySelectorAll('#sidebar nav a.sub-link');
+        const sections = [...links].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    links.forEach(l => l.classList.remove('active'));
+                    const active = [...links].find(l => l.getAttribute('href') === '#' + entry.target.id);
+                    if (active) active.classList.add('active');
+                }
+            });
+        }, { rootMargin: '-20% 0px -70% 0px' });
+
+        sections.forEach(s => observer.observe(s));
+
+        // Smooth scroll
+        document.querySelectorAll('#sidebar nav a').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+
+</html>
