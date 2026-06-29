@@ -22,7 +22,6 @@ export class AiService implements OnModuleInit {
       model: 'gemini-2.5-flash',
       contents: prompt,
     });
-    console.log(`Reponse do AI sinh ra nè: ${response}`);
     return response.text as string;
   }
 
