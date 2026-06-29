@@ -580,7 +580,6 @@
             <a class="sub-link" href="#git-reset">git reset</a>
             <a class="sub-link" href="#git-amend">git amend</a>
             <a class="sub-link" href="#git-reflog">git reflog</a>
-            <a class="sub-link" href="#git-recovery">Git Recovery</a>
 
             <a class="section-link" href="#github">🌐 GitHub</a>
             <a class="sub-link" href="#ssh">SSH</a>
@@ -925,7 +924,8 @@ git merge feature/login</pre>
                         </table>
                     </div>
                     <div class="info-box">💡 Mặc định tag chỉ tồn tại trên máy local. Cần
-                        <code>git push origin &lt;tag&gt;</code> để người khác thấy được.</div>
+                        <code>git push origin &lt;tag&gt;</code> để người khác thấy được.
+                    </div>
                 </div>
 
                 <div class="section" id="git-stash">
@@ -1038,7 +1038,8 @@ git merge feature/login</pre>
                     <div class="warn-box">⚠️ Khi xảy ra <strong>conflict</strong>, Git sẽ đánh dấu trong file bằng
                         <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>,
                         <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>. Bạn cần sửa thủ công, rồi <code>git add</code> và
-                        <code>git merge --continue</code>.</div>
+                        <code>git merge --continue</code>.
+                    </div>
                 </div>
 
                 <div class="section" id="glossary">
@@ -1299,103 +1300,67 @@ git merge feature/login</pre>
                     </div>
                 </div>
 
-                <div class="section" id="git-recovery">
-                    <h3>Git Recovery</h3>
-                    <p>Kết hợp <code>git reflog</code> với các lệnh khôi phục để cứu code trong tình huống xóa nhầm
-                        nhánh, reset sai, hoặc mất commit.</p>
-                    <div class="table-wrap">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Lệnh</th>
-                                    <th>Công dụng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>git reset --hard HEAD@{n}</td>
-                                    <td>Khôi phục về vị trí HEAD@{n} tìm được trong reflog</td>
-                                </tr>
-                                <tr>
-                                    <td>git reset --hard &lt;commit_sha&gt;</td>
-                                    <td>Quay về commit cụ thể đã bị xóa khỏi git log</td>
-                                </tr>
-                                <tr>
-                                    <td>git checkout -b &lt;tên mới&gt; &lt;sha&gt;</td>
-                                    <td>Hồi sinh nhánh đã xóa bằng cách tạo nhánh mới tại SHA cũ</td>
-                                </tr>
-                                <tr>
-                                    <td>git cherry-pick &lt;sha&gt;</td>
-                                    <td>Lấy riêng một commit bị thất lạc và áp dụng vào nhánh hiện tại</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <pre><span class="comment"># Tình huống: lỡ git reset --hard, mất code</span>
-git reflog                        <span class="comment"># tìm vị trí trước khi reset</span>
-<span class="comment"># HEAD@{3}: commit abc1234 "Add payment feature"</span>
-git reset --hard HEAD@{3}        <span class="comment"># khôi phục về đó</span></pre>
-                </div>
-            </div>
 
-            <!-- ════════════════════════════════ GITHUB ════════════════════════════════ -->
-            <div class="chapter" id="github">
-                <div class="chapter-title">
-                    <div class="icon">🌐</div> GitHub
-                </div>
 
-                <div class="section" id="ssh">
-                    <h3>SSH là gì?</h3>
-                    <p>SSH (Secure Shell) là giao thức kết nối an toàn tới máy chủ từ xa. GitHub dùng SSH key thay cho
-                        mật khẩu để xác thực danh tính.</p>
-                    <div class="flow" style="gap: 10px;">
-                        <div class="flow-step">
-                            <div class="bubble">🔑</div>
-                            <div class="label">Private Key</div>
-                            <div class="sub">Trên máy bạn (bí mật)</div>
-                        </div>
-                        <div class="flow-arrow">🔐</div>
-                        <div class="flow-step">
-                            <div class="bubble">🔒</div>
-                            <div class="label">Public Key</div>
-                            <div class="sub">Lưu trên GitHub</div>
-                        </div>
-                        <div class="flow-arrow">✅</div>
-                        <div class="flow-step">
-                            <div class="bubble">☁️</div>
-                            <div class="label">Kết nối an toàn</div>
-                            <div class="sub">Git push / pull</div>
-                        </div>
+                <!-- ════════════════════════════════ GITHUB ════════════════════════════════ -->
+                <div class="chapter" id="github">
+                    <div class="chapter-title">
+                        <div class="icon">🌐</div> GitHub
                     </div>
-                    <div class="table-wrap">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Lệnh</th>
-                                    <th>Công dụng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>ssh-keygen</td>
-                                    <td>Tạo một cặp SSH key mới (public + private)</td>
-                                </tr>
-                                <tr>
-                                    <td>ssh-add ~/.ssh/id_ed25519</td>
-                                    <td>Thêm khóa SSH vào SSH agent</td>
-                                </tr>
-                                <tr>
-                                    <td>ssh-add -l</td>
-                                    <td>Liệt kê các SSH key đã tải vào agent</td>
-                                </tr>
-                                <tr>
-                                    <td>ssh -T git@github.com</td>
-                                    <td>Kiểm tra kết nối SSH tới GitHub</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <pre><span class="comment"># 1. Tạo SSH key (Ed25519 được khuyến nghị)</span>
+
+                    <div class="section" id="ssh">
+                        <h3>SSH là gì?</h3>
+                        <p>SSH (Secure Shell) là giao thức kết nối an toàn tới máy chủ từ xa. GitHub dùng SSH key thay
+                            cho
+                            mật khẩu để xác thực danh tính.</p>
+                        <div class="flow" style="gap: 10px;">
+                            <div class="flow-step">
+                                <div class="bubble">🔑</div>
+                                <div class="label">Private Key</div>
+                                <div class="sub">Trên máy bạn (bí mật)</div>
+                            </div>
+                            <div class="flow-arrow">🔐</div>
+                            <div class="flow-step">
+                                <div class="bubble">🔒</div>
+                                <div class="label">Public Key</div>
+                                <div class="sub">Lưu trên GitHub</div>
+                            </div>
+                            <div class="flow-arrow">✅</div>
+                            <div class="flow-step">
+                                <div class="bubble">☁️</div>
+                                <div class="label">Kết nối an toàn</div>
+                                <div class="sub">Git push / pull</div>
+                            </div>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Lệnh</th>
+                                        <th>Công dụng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>ssh-keygen</td>
+                                        <td>Tạo một cặp SSH key mới (public + private)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ssh-add ~/.ssh/id_ed25519</td>
+                                        <td>Thêm khóa SSH vào SSH agent</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ssh-add -l</td>
+                                        <td>Liệt kê các SSH key đã tải vào agent</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ssh -T git@github.com</td>
+                                        <td>Kiểm tra kết nối SSH tới GitHub</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <pre><span class="comment"># 1. Tạo SSH key (Ed25519 được khuyến nghị)</span>
 ssh-keygen -t ed25519 -C "email@example.com"
 
 <span class="comment"># 2. Thêm public key vào GitHub: Settings → SSH Keys → New SSH Key</span>
@@ -1404,63 +1369,71 @@ cat ~/.ssh/id_ed25519.pub
 <span class="comment"># 3. Kiểm tra kết nối</span>
 ssh -T git@github.com
 <span class="comment"># Hi username! You've successfully authenticated.</span></pre>
-                </div>
-
-                <div class="section" id="pull-request">
-                    <h3>Pull Request (PR)</h3>
-                    <p>Pull Request là cơ chế trên GitHub cho phép đề xuất thay đổi từ nhánh của bạn vào nhánh chính,
-                        kèm theo code review từ đồng nghiệp.</p>
-                    <ul class="styled">
-                        <li>Fork repository (nếu không có quyền ghi trực tiếp) hoặc tạo branch mới trong cùng repo.</li>
-                        <li>Thực hiện thay đổi, commit và push nhánh lên GitHub.</li>
-                        <li>Mở Pull Request từ giao diện GitHub, mô tả rõ nội dung thay đổi.</li>
-                        <li>Đồng nghiệp review, comment và approve hoặc yêu cầu chỉnh sửa.</li>
-                        <li>Sau khi được approve, merge PR vào nhánh đích.</li>
-                        <li>Xóa nhánh sau khi merge để giữ repo gọn gàng.</li>
-                    </ul>
-                    <div class="tip-box">✅ <strong>Best practice:</strong> Viết mô tả PR rõ ràng — vấn đề gì, giải pháp
-                        ra sao, cách test — giúp review nhanh hơn.</div>
-                </div>
-
-                <div class="section" id="cicd">
-                    <h3>GitHub CI/CD (GitHub Actions)</h3>
-                    <p><strong>CI/CD</strong> = Continuous Integration + Continuous Deployment/Delivery. Mỗi lần push
-                        code, hệ thống tự động chạy test, build và deploy.</p>
-
-                    <div class="term-grid">
-                        <div class="term-card">
-                            <div class="term-name">Lợi ích</div>
-                            <div class="term-desc">Phát hiện bug sớm · Deploy nhanh và an toàn · Giảm thao tác thủ công
-                                · Phản hồi ngay sau mỗi push.</div>
-                        </div>
-                        <div class="term-card">
-                            <div class="term-name">Workflow</div>
-                            <div class="term-desc">Chuỗi các job chạy cùng nhau, định nghĩa bằng file <code>.yml</code>
-                                trong <code>.github/workflows/</code>.</div>
-                        </div>
-                        <div class="term-card">
-                            <div class="term-name">Job</div>
-                            <div class="term-desc">Nhóm các step chạy trên cùng một runner (máy ảo).</div>
-                        </div>
-                        <div class="term-card">
-                            <div class="term-name">Step</div>
-                            <div class="term-desc">Một tác vụ đơn lẻ: checkout code, chạy test, build Docker image...
-                            </div>
-                        </div>
-                        <div class="term-card">
-                            <div class="term-name">Runner</div>
-                            <div class="term-desc">Máy chủ thực thi job. Dùng runner của GitHub
-                                (<code>ubuntu-latest</code>) hoặc self-hosted.</div>
-                        </div>
-                        <div class="term-card">
-                            <div class="term-name">Trigger</div>
-                            <div class="term-desc">Điều kiện kích hoạt workflow: push, pull_request, schedule (cron),
-                                workflow_dispatch...</div>
-                        </div>
                     </div>
 
-                    <h3 style="margin-top: 24px;">Ví dụ: CI Pipeline cơ bản</h3>
-                    <pre><span class="comment"># .github/workflows/ci.yml</span>
+                    <div class="section" id="pull-request">
+                        <h3>Pull Request (PR)</h3>
+                        <p>Pull Request là cơ chế trên GitHub cho phép đề xuất thay đổi từ nhánh của bạn vào nhánh
+                            chính,
+                            kèm theo code review từ đồng nghiệp.</p>
+                        <ul class="styled">
+                            <li>Fork repository (nếu không có quyền ghi trực tiếp) hoặc tạo branch mới trong cùng repo.
+                            </li>
+                            <li>Thực hiện thay đổi, commit và push nhánh lên GitHub.</li>
+                            <li>Mở Pull Request từ giao diện GitHub, mô tả rõ nội dung thay đổi.</li>
+                            <li>Đồng nghiệp review, comment và approve hoặc yêu cầu chỉnh sửa.</li>
+                            <li>Sau khi được approve, merge PR vào nhánh đích.</li>
+                            <li>Xóa nhánh sau khi merge để giữ repo gọn gàng.</li>
+                        </ul>
+                        <div class="tip-box">✅ <strong>Best practice:</strong> Viết mô tả PR rõ ràng — vấn đề gì, giải
+                            pháp
+                            ra sao, cách test — giúp review nhanh hơn.</div>
+                    </div>
+
+                    <div class="section" id="cicd">
+                        <h3>GitHub CI/CD (GitHub Actions)</h3>
+                        <p><strong>CI/CD</strong> = Continuous Integration + Continuous Deployment/Delivery. Mỗi lần
+                            push
+                            code, hệ thống tự động chạy test, build và deploy.</p>
+
+                        <div class="term-grid">
+                            <div class="term-card">
+                                <div class="term-name">Lợi ích</div>
+                                <div class="term-desc">Phát hiện bug sớm · Deploy nhanh và an toàn · Giảm thao tác thủ
+                                    công
+                                    · Phản hồi ngay sau mỗi push.</div>
+                            </div>
+                            <div class="term-card">
+                                <div class="term-name">Workflow</div>
+                                <div class="term-desc">Chuỗi các job chạy cùng nhau, định nghĩa bằng file
+                                    <code>.yml</code>
+                                    trong <code>.github/workflows/</code>.</div>
+                            </div>
+                            <div class="term-card">
+                                <div class="term-name">Job</div>
+                                <div class="term-desc">Nhóm các step chạy trên cùng một runner (máy ảo).</div>
+                            </div>
+                            <div class="term-card">
+                                <div class="term-name">Step</div>
+                                <div class="term-desc">Một tác vụ đơn lẻ: checkout code, chạy test, build Docker
+                                    image...
+                                </div>
+                            </div>
+                            <div class="term-card">
+                                <div class="term-name">Runner</div>
+                                <div class="term-desc">Máy chủ thực thi job. Dùng runner của GitHub
+                                    (<code>ubuntu-latest</code>) hoặc self-hosted.</div>
+                            </div>
+                            <div class="term-card">
+                                <div class="term-name">Trigger</div>
+                                <div class="term-desc">Điều kiện kích hoạt workflow: push, pull_request, schedule
+                                    (cron),
+                                    workflow_dispatch...</div>
+                            </div>
+                        </div>
+
+                        <h3 style="margin-top: 24px;">Ví dụ: CI Pipeline cơ bản</h3>
+                        <pre><span class="comment"># .github/workflows/ci.yml</span>
 <span class="tag">name:</span> <span class="string">CI Pipeline</span>
 
 <span class="tag">on:</span>
@@ -1489,8 +1462,8 @@ ssh -T git@github.com
       - <span class="tag">name:</span> Build project
         <span class="tag">run:</span> npm run build</pre>
 
-                    <h3 style="margin-top: 24px;">Ví dụ: CI/CD nâng cao (nhiều job)</h3>
-                    <pre><span class="tag">name:</span> <span class="string">CI/CD nâng cao</span>
+                        <h3 style="margin-top: 24px;">Ví dụ: CI/CD nâng cao (nhiều job)</h3>
+                        <pre><span class="tag">name:</span> <span class="string">CI/CD nâng cao</span>
 <span class="tag">on:</span> [push]
 
 <span class="tag">jobs:</span>
@@ -1511,13 +1484,15 @@ ssh -T git@github.com
         <span class="tag">env:</span>
           DEPLOY_KEY: <span class="string">${{ secrets.DEPLOY_KEY }}</span></pre>
 
-                    <div class="info-box">💡 <strong>Bỏ qua CI:</strong> Thêm <code>[skip ci]</code> vào commit message
-                        để không kích hoạt pipeline khi chỉ sửa tài liệu:
-                        <code>git commit -m "Cập nhật README [skip ci]"</code></div>
+                        <div class="info-box">💡 <strong>Bỏ qua CI:</strong> Thêm <code>[skip ci]</code> vào commit
+                            message
+                            để không kích hoạt pipeline khi chỉ sửa tài liệu:
+                            <code>git commit -m "Cập nhật README [skip ci]"</code>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-        </div><!-- /content -->
+            </div><!-- /content -->
     </main>
 
     <footer>
